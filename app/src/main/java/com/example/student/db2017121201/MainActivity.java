@@ -24,23 +24,20 @@ public class MainActivity extends AppCompatActivity {
 
     class MyTask extends AsyncTask<Integer, Integer, String>
     {
-
         // 另一個執行緒
         @Override
         protected String doInBackground(Integer... integers) {
             int n;
-            for (int i=10;i>=0;i--)
+            for (int i=integers[0];i>=0;i--)
             {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
                 publishProgress(i);
             }
-
-            return null;
+            return "Okay";
         }
 
         // 主執行緒
@@ -48,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
             tv.setText(String.valueOf(values[0]));
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            tv.setText(s);
         }
     }
 }
