@@ -21,16 +21,34 @@ public class MainActivity extends AppCompatActivity {
         MyTask task = new MyTask();
         task.execute(10);
     }
-}
 
-class MyTask extends AsyncTask<Integer, Integer, String>
-{
+    class MyTask extends AsyncTask<Integer, Integer, String>
+    {
 
-    @Override
-    protected String doInBackground(Integer... integers) {
-        int n;
-        n = integers[0];
-        Log.d("TASK",String.valueOf(n));
-        return null;
+        // 另一個執行緒
+        @Override
+        protected String doInBackground(Integer... integers) {
+            int n;
+            for (int i=10;i>=0;i--)
+            {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                publishProgress(i);
+            }
+
+            return null;
+        }
+
+        // 主執行緒
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            tv.setText(String.valueOf(values[0]));
+        }
     }
 }
+
