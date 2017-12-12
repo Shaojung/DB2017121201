@@ -1,7 +1,9 @@
 package com.example.student.db2017121201;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,26 +18,19 @@ public class MainActivity extends AppCompatActivity {
     }
     public void click1(View v)
     {
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                for (i=10;i>=0;i--)
-                {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            tv.setText(String.valueOf(i));
-                        }
-                    });
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
+        MyTask task = new MyTask();
+        task.execute(10);
+    }
+}
 
+class MyTask extends AsyncTask<Integer, Integer, String>
+{
+
+    @Override
+    protected String doInBackground(Integer... integers) {
+        int n;
+        n = integers[0];
+        Log.d("TASK",String.valueOf(n));
+        return null;
     }
 }
